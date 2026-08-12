@@ -25,6 +25,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        heading: "hsl(var(--heading))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -52,6 +53,17 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+        },
+        status: {
+          canceled: "hsl(var(--status-canceled))",
+          completed: "hsl(var(--status-completed))",
+          confirmed: "hsl(var(--status-confirmed))",
+          suspend: "hsl(var(--status-suspend))",
+          delete: "hsl(var(--status-delete))",
         },
       },
       borderRadius: {
