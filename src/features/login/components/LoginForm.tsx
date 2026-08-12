@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import {
   loginSchema,
@@ -23,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export function LoginForm() {
   const loginMutation = useLoginMutation();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<TLoginRequest>({
@@ -38,8 +39,7 @@ export function LoginForm() {
     // Calling the API mutation
     loginMutation.mutate(data, {
       onSuccess: () => {
-        // Typically navigate to dashboard
-        console.log("Login successful!", data);
+        navigate("/dashboard");
       },
       onError: (error) => {
         console.error("Login failed:", error);
