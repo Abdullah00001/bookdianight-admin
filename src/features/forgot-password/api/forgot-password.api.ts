@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "@/configs/axios.configs";
 import type {
   TRequestRequest,
   TVerifyRequest,
@@ -9,8 +8,7 @@ import type {
 export const useRequestCodeMutation = () => {
   return useMutation({
     mutationFn: async (data: TRequestRequest) => {
-      // return await axiosInstance.post("/auth/forgot-password", data);
-      
+      console.log("Mock request password code for:", data.email);
       // Stub: Simulate API call
       return new Promise((resolve) => setTimeout(resolve, 1000));
     },
@@ -20,8 +18,7 @@ export const useRequestCodeMutation = () => {
 export const useVerifyCodeMutation = () => {
   return useMutation({
     mutationFn: async (data: TVerifyRequest) => {
-      // return await axiosInstance.post("/auth/verify-code", data);
-      
+      console.log("Mock verify password code:", data.code);
       // Stub: Simulate API call
       return new Promise((resolve) => setTimeout(resolve, 1000));
     },
@@ -31,8 +28,7 @@ export const useVerifyCodeMutation = () => {
 export const useResetPasswordMutation = () => {
   return useMutation({
     mutationFn: async (data: TResetRequest) => {
-      // return await axiosInstance.post("/auth/reset-password", data);
-      
+      console.log("Mock reset password for:", data.password);
       // Stub: Simulate API call
       return new Promise((resolve) => setTimeout(resolve, 1000));
     },
