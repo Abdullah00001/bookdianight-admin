@@ -1,8 +1,8 @@
-import { LoginForm } from "./LoginForm";
+import { ForgotPasswordFlow } from "./ForgotPasswordFlow";
 import bgImage from "@/assets/auth-pages-image.png";
 import logoImage from "@/assets/auth-pages-logo.png";
 
-export function LoginLayout() {
+export function ForgotPasswordLayout() {
   return (
     <div className="flex min-h-screen min-w-full bg-background overflow-hidden">
       {/* Left side: Background Image */}
@@ -16,7 +16,7 @@ export function LoginLayout() {
         </div>
       </div>
 
-      {/* Right side: Login Form */}
+      {/* Right side: Flow Container */}
       <div className="w-full flex-1 flex flex-col justify-center items-center p-8 sm:p-12 lg:p-16 overflow-y-auto">
         <div className="w-full max-w-[545px] mx-auto">
           <div className="bg-card shadow-[0_2px_8px_-1px_rgba(0,0,0,0.08)] rounded-[20px] p-[40px] flex flex-col gap-[56px]">
@@ -29,7 +29,7 @@ export function LoginLayout() {
               />
             </div>
 
-            <LoginForm />
+            <ForgotPasswordFlow />
           </div>
         </div>
       </div>

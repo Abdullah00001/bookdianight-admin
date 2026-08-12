@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import {
   loginSchema,
   type TLoginRequest,
@@ -21,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export function LoginForm() {
   const loginMutation = useLoginMutation();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<TLoginRequest>({
     resolver: zodResolver(loginSchema),
@@ -83,7 +86,25 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="**********" type="password" {...field} />
+                  <div className="relative">
+                    <Input
+                      placeholder="**********"
+                      type={showPassword ? "text" : "password"}
+                      className="pr-10"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
