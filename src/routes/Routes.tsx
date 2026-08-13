@@ -6,6 +6,7 @@ import UsersPage from "@/pages/UsersPage";
 import ClubOwnersPage from "@/pages/ClubOwnersPage";
 import ClubsPage from "@/pages/ClubsPage";
 import EventsPage from "@/pages/EventsPage";
+import EarningsPage from "@/pages/EarningsPage";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 const Routes = createBrowserRouter([
@@ -48,6 +49,10 @@ const Routes = createBrowserRouter([
       {
         path: "events",
         element: <EventsPage />,
+      },
+      {
+        path: "earning",
+        element: <EarningsPage />,
       },
     ],
   },
