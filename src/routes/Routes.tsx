@@ -4,6 +4,8 @@ import ForgotPasswordPage from "@/pages/ForgotPassword";
 import DashboardPage from "@/pages/Dashboard";
 import UsersPage from "@/pages/UsersPage";
 import ClubOwnersPage from "@/pages/ClubOwnersPage";
+import ClubsPage from "@/pages/ClubsPage";
+import EventsPage from "@/pages/EventsPage";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 const Routes = createBrowserRouter([
@@ -38,6 +40,14 @@ const Routes = createBrowserRouter([
       {
         path: "accounts/club-owners",
         element: <ClubOwnersPage />,
+      },
+      {
+        path: "clubs",
+        element: <ClubsPage />,
+      },
+      {
+        path: "events",
+        element: <EventsPage />,
       },
     ],
   },

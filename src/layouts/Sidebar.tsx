@@ -9,7 +9,6 @@ import {
   Bell,
   Settings,
   LogOut,
-  ChevronRight,
   ChevronDown,
 } from "lucide-react";
 import logoImage from "@/assets/auth-pages-logo.png";
@@ -37,14 +36,13 @@ const supportLinks = [
   { name: "Logout", href: "/login", icon: LogOut }, // Simplistic logout redirect for now
 ];
 
-export function Sidebar() {
+export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isAccountsOpen, setIsAccountsOpen] = useState(
     location.pathname.startsWith("/accounts")
   );
 
-  // Sync state if navigation happens outside sidebar
   useEffect(() => {
     if (location.pathname.startsWith("/accounts")) {
       setIsAccountsOpen(true);
@@ -56,14 +54,13 @@ export function Sidebar() {
   const toggleAccounts = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isAccountsOpen) {
-      // If opening, redirect to default accounts page
       navigate("/accounts/users");
     }
     setIsAccountsOpen(!isAccountsOpen);
   };
 
   return (
-    <div className="w-64 h-screen bg-[#FAFAFA] border-r border-border flex flex-col fixed left-0 top-0 overflow-y-auto">
+    <div className="flex flex-col h-full bg-[#FAFAFA] w-full">
       {/* Logo */}
       <div className="flex items-center justify-center h-24 mt-4 mb-6">
         <img
@@ -122,6 +119,7 @@ export function Sidebar() {
                               
                               <NavLink
                                 to={subItem.href}
+                                onClick={onClickItem}
                                 className={({ isActive }) =>
                                   `block px-4 py-2.5 text-sm font-medium rounded-xl transition-all relative z-10 border ${
                                     isActive
@@ -145,6 +143,7 @@ export function Sidebar() {
                 <li key={link.name}>
                   <NavLink
                     to={link.href}
+                    onClick={onClickItem}
                     className={({ isActive }) =>
                       `flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-colors border ${
                         isActive
@@ -174,6 +173,7 @@ export function Sidebar() {
               <li key={link.name}>
                 <NavLink
                   to={link.href}
+                  onClick={onClickItem}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border ${
                       isActive
@@ -190,6 +190,14 @@ export function Sidebar() {
           </ul>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function Sidebar({ className }: { className?: string }) {
+  return (
+    <div className={`w-64 h-screen bg-[#FAFAFA] border-r border-border fixed left-0 top-0 overflow-y-auto z-20 ${className || ''}`}>
+      <SidebarContent />
     </div>
   );
 }

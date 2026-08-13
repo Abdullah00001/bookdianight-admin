@@ -33,9 +33,9 @@ const data = [
 export function UserManagementChart() {
   return (
     <div className="bg-card border border-border rounded-2xl p-6 mb-6 shadow-sm">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <h3 className="text-xl font-bold text-foreground">User Management</h3>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <Select defaultValue="account_type">
             <SelectTrigger className="w-[140px] rounded-lg">
               <SelectValue placeholder="Account Type" />
