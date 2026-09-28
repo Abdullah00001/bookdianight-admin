@@ -6,7 +6,6 @@ import {
   Globe,
   PartyPopper,
   Wallet,
-  Bell,
   Settings,
   LogOut,
   ChevronDown,

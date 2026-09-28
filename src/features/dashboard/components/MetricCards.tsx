@@ -1,23 +1,40 @@
 import { Euro, Users } from "lucide-react";
+import type { TDashboardData } from "@/apis/dashboard.api";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function MetricCards() {
+interface MetricCardsProps {
+  data?: TDashboardData;
+  isLoading: boolean;
+}
+
+export function MetricCards({ data, isLoading }: MetricCardsProps) {
   const metrics = [
     {
       title: "Total Earning",
-      value: "€ 15,000",
+      value: `€ ${data?.totalEarning?.toLocaleString() ?? "0"}`,
       icon: Euro,
     },
     {
       title: "Total Users",
-      value: "3,285",
+      value: data?.totalUsers?.toLocaleString() ?? "0",
       icon: Users,
     },
     {
       title: "Total Club Owner",
-      value: "250",
+      value: data?.totalClubOwners?.toLocaleString() ?? "0",
       icon: Users,
     },
   ];
+
+  if (isLoading && !data) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-[106px] w-full rounded-2xl bg-muted/50" />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">

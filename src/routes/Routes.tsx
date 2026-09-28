@@ -7,7 +7,6 @@ import ClubOwnersPage from "@/pages/ClubOwnersPage";
 import ClubsPage from "@/pages/ClubsPage";
 import EventsPage from "@/pages/EventsPage";
 import EarningsPage from "@/pages/EarningsPage";
-import NotificationsPage from "@/pages/NotificationsPage";
 import SettingsPage from "@/pages/SettingsPage";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { AuthGuard } from "@/components/guards/AuthGuard";
