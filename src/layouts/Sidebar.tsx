@@ -12,6 +12,9 @@ import {
   ChevronDown,
 } from "lucide-react";
 import logoImage from "@/assets/auth-pages-logo.png";
+import { useAuthStore } from "@/stores/auth.store";
+import { useModalStore } from "@/stores/modal.store";
+import { useLogoutMutation } from "@/apis/auth.api";
 
 const mainMenuLinks = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -28,17 +31,19 @@ const mainMenuLinks = [
   { name: "Clubs", href: "/clubs", icon: Globe },
   { name: "Events", href: "/events", icon: PartyPopper },
   { name: "Earning", href: "/earning", icon: Wallet },
-  { name: "Notifications", href: "/notifications", icon: Bell },
 ];
 
 const supportLinks = [
   { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Logout", href: "/login", icon: LogOut }, // Simplistic logout redirect for now
+  { name: "Logout", href: "#", icon: LogOut, action: "logout" },
 ];
 
 export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const logoutMutation = useLogoutMutation();
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+  
   const [isAccountsOpen, setIsAccountsOpen] = useState(
     location.pathname.startsWith("/accounts")
   );
@@ -57,6 +62,23 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
       navigate("/accounts/users");
     }
     setIsAccountsOpen(!isAccountsOpen);
+  };
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        clearAuth();
+        navigate("/login");
+        useModalStore.getState().showModal("Logged Out", "You have successfully logged out.", "success");
+      },
+      onError: (err) => {
+        // Even if it fails (e.g. session already invalid), we log them out of the UI
+        console.error("Logout failed:", err);
+        clearAuth();
+        navigate("/login");
+      }
+    });
   };
 
   return (
@@ -171,20 +193,31 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
           <ul className="space-y-2">
             {supportLinks.map((link) => (
               <li key={link.name}>
-                <NavLink
-                  to={link.href}
-                  onClick={onClickItem}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border ${
-                      isActive
-                        ? "text-primary border-primary bg-primary/5"
-                        : "text-muted-foreground border-transparent hover:text-foreground hover:bg-muted"
-                    }`
-                  }
-                >
-                  <link.icon className="h-5 w-5" />
-                  {link.name}
-                </NavLink>
+                {link.action === "logout" ? (
+                  <button
+                    onClick={handleLogout}
+                    disabled={logoutMutation.isPending}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border text-muted-foreground border-transparent hover:text-foreground hover:bg-muted"
+                  >
+                    <link.icon className={`h-5 w-5 ${logoutMutation.isPending ? "opacity-50" : ""}`} />
+                    {logoutMutation.isPending ? "Logging out..." : link.name}
+                  </button>
+                ) : (
+                  <NavLink
+                    to={link.href}
+                    onClick={onClickItem}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border ${
+                        isActive
+                          ? "text-primary border-primary bg-primary/5"
+                          : "text-muted-foreground border-transparent hover:text-foreground hover:bg-muted"
+                      }`
+                    }
+                  >
+                    <link.icon className="h-5 w-5" />
+                    {link.name}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>

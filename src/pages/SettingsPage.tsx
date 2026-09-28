@@ -46,21 +46,21 @@ export default function SettingsPage() {
             <SettingsEditorForm 
               title="About Us"
               subtitle="View and update your personal information, change passwords for a personalized experience"
-              initialValue="<p>Lorem ipsum dolor sit amet consectetur. Fringilla a cras vitae orci. Egestas duis id nisl sed ante congue scelerisque. Eleifend facilisis aliquet tempus morbi leo sagittis. Pellentesque odio amet turpis habitant.</p><p>Imperdiet tincidunt nisl consectetur hendrerit accumsan vehicula imperdiet mattis. Neque a vitae diam pharetra duis habitasse convallis luctus pulvinar.</p>"
+              type="about"
             />
           </TabsContent>
           <TabsContent value="privacy" className="mt-0 outline-none animate-in fade-in duration-500">
             <SettingsEditorForm 
               title="Privacy Policy"
               subtitle="View and update your personal information, change passwords for a personalized experience"
-              initialValue="<p>Lorem ipsum dolor sit amet consectetur. Fringilla a cras vitae orci. Egestas duis id nisl sed ante congue scelerisque. Eleifend facilisis aliquet tempus morbi leo sagittis. Pellentesque odio amet turpis habitant.</p><p>Imperdiet tincidunt nisl consectetur hendrerit accumsan vehicula imperdiet mattis. Neque a vitae diam pharetra duis habitasse convallis luctus pulvinar.</p>"
+              type="privacy"
             />
           </TabsContent>
           <TabsContent value="terms" className="mt-0 outline-none animate-in fade-in duration-500">
             <SettingsEditorForm 
               title="Terms & Conditions"
               subtitle="View and update your personal information, change passwords for a personalized experience"
-              initialValue="<p>Lorem ipsum dolor sit amet consectetur. Fringilla a cras vitae orci. Egestas duis id nisl sed ante congue scelerisque. Eleifend facilisis aliquet tempus morbi leo sagittis. Pellentesque odio amet turpis habitant.</p><p>Imperdiet tincidunt nisl consectetur hendrerit accumsan vehicula imperdiet mattis. Neque a vitae diam pharetra duis habitasse convallis luctus pulvinar.</p>"
+              type="terms"
             />
           </TabsContent>
         </div>

@@ -8,6 +8,7 @@ import {
   type TLoginRequest,
 } from "@/features/login/types/login.types";
 import { useLoginMutation } from "../api/login.api";
+import { useToast } from "@/hooks/use-toast";
 
 import {
   Form,
@@ -20,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useModalStore } from "@/stores/modal.store";
 
 export function LoginForm() {
   const loginMutation = useLoginMutation();
@@ -38,11 +40,23 @@ export function LoginForm() {
   const onSubmit = (data: TLoginRequest) => {
     // Calling the API mutation
     loginMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        useModalStore.getState().showModal(
+          "Login Successful", 
+          res.message || "You have successfully logged in.", 
+          "success"
+        );
         navigate("/dashboard");
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.error("Login failed:", error);
+        
+        // Show modal for errors
+        const errorMessage = error?.response?.data?.message 
+          || (error.message === "Network Error" ? "Unable to connect to the server. Please check your backend." : error.message) 
+          || "Invalid email or password.";
+          
+        useModalStore.getState().showModal("Login Failed", errorMessage, "error");
       },
     });
   };

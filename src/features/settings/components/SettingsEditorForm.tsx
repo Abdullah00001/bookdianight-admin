@@ -1,16 +1,30 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { useLegalContentQuery, useUpdateLegalContentMutation } from "@/apis/legal.api";
+import type { TLegalType } from "@/apis/legal.api";
+import { useModalStore } from "@/stores/modal.store";
 
 interface SettingsEditorFormProps {
   title: string;
   subtitle: string;
-  initialValue?: string;
+  type: TLegalType;
 }
 
-export function SettingsEditorForm({ title, subtitle, initialValue = "" }: SettingsEditorFormProps) {
+export function SettingsEditorForm({ title, subtitle, type }: SettingsEditorFormProps) {
   const editor = useRef(null);
-  const [content, setContent] = useState(initialValue);
+  const showModal = useModalStore((state) => state.showModal);
+  const [content, setContent] = useState("");
+
+  const { data, isLoading, isError } = useLegalContentQuery(type);
+  const updateMutation = useUpdateLegalContentMutation();
+
+  useEffect(() => {
+    if (data?.data?.legalContent?.content) {
+      setContent(data.data.legalContent.content);
+    }
+  }, [data]);
 
   const config = useMemo(
     () => ({
@@ -37,6 +51,22 @@ export function SettingsEditorForm({ title, subtitle, initialValue = "" }: Setti
     }),
     []
   );
+
+  const handleSave = () => {
+    updateMutation.mutate(
+      { type, data: { content } },
+      {
+        onSuccess: (res) => {
+          showModal("Success", res.message || `${title} updated successfully.`, "success");
+        },
+        onError: (error: any) => {
+          const errorMessage =
+            error?.response?.data?.message || error.message || `Failed to update ${title}.`;
+          showModal("Error", errorMessage, "error");
+        },
+      }
+    );
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 w-full pb-10">
@@ -71,17 +101,38 @@ export function SettingsEditorForm({ title, subtitle, initialValue = "" }: Setti
             }
           `}
         </style>
-        <JoditEditor
-          ref={editor}
-          value={content}
-          config={config}
-          onBlur={(newContent) => setContent(newContent)}
-          onChange={() => {}}
-        />
+        {isLoading ? (
+          <div className="h-[500px] flex items-center justify-center bg-card">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : isError ? (
+          <div className="h-[500px] flex items-center justify-center bg-card text-destructive">
+            Failed to load {title.toLowerCase()}.
+          </div>
+        ) : (
+          <JoditEditor
+            ref={editor}
+            value={content}
+            config={config}
+            onBlur={(newContent) => setContent(newContent)}
+            onChange={() => {}}
+          />
+        )}
       </div>
 
-      <Button className="w-full h-14 bg-[#E5B869] hover:bg-[#D4A353] text-white font-bold rounded-xl text-lg">
-        Save
+      <Button 
+        onClick={handleSave}
+        disabled={isLoading || updateMutation.isPending}
+        className="w-full h-14 bg-[#E5B869] hover:bg-[#D4A353] text-white font-bold rounded-xl text-lg disabled:opacity-50"
+      >
+        {updateMutation.isPending ? (
+          <>
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            Saving...
+          </>
+        ) : (
+          "Save"
+        )}
       </Button>
     </div>
   );
