@@ -9,10 +9,12 @@ import {
 } from "@/apis/commission.api";
 import { useModalStore } from "@/stores/modal.store";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type SetupType = "CLUB" | "EVENT" | "SERVICE_CHARGE";
 
 export function CommissionSetupForm() {
+  const { t } = useTranslation();
   const [type, setType] = useState<SetupType>("CLUB");
   const [inputValue, setInputValue] = useState("");
 
@@ -84,9 +86,9 @@ export function CommissionSetupForm() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-xl">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Commission & Fees</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">{t("settingsForm.commissionAndFees")}</h2>
         <p className="text-muted-foreground text-[15px]">
-          Manage the platform commission percentage and fixed service charges.
+          {t("settingsForm.commissionDesc")}
         </p>
       </div>
 
@@ -99,7 +101,7 @@ export function CommissionSetupForm() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Club Commission
+          {t("settingsForm.clubCommission")}
         </button>
         <button
           onClick={() => setType("EVENT")}
@@ -109,7 +111,7 @@ export function CommissionSetupForm() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Event Commission
+          {t("settingsForm.eventCommission")}
         </button>
         <button
           onClick={() => setType("SERVICE_CHARGE")}
@@ -119,13 +121,13 @@ export function CommissionSetupForm() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Service Charge
+          {t("settingsForm.serviceCharge")}
         </button>
       </div>
 
       <div className="space-y-2 mb-8">
         <label className="text-sm font-medium text-foreground flex items-center">
-          {type === "SERVICE_CHARGE" ? "Fixed Service Charge Amount ($)" : "Commission Percentage (%)"}
+          {type === "SERVICE_CHARGE" ? t("settingsForm.fixedServiceCharge") : t("settingsForm.commissionPercentage")}
           {isLoading && <Loader2 className="ml-3 h-3 w-3 animate-spin text-muted-foreground" />}
         </label>
         <Input 
@@ -138,8 +140,8 @@ export function CommissionSetupForm() {
         />
         <p className="text-xs text-muted-foreground pt-1">
           {type === "SERVICE_CHARGE" 
-            ? "Platform fixed fee applied to each purchase"
-            : `Platform commission percentage from each ${type.toLowerCase()}`
+            ? t("settingsForm.platformFixedFee")
+            : type === "CLUB" ? t("settingsForm.platformCommissionClub") : t("settingsForm.platformCommissionEvent")
           }
         </p>
       </div>
@@ -152,10 +154,10 @@ export function CommissionSetupForm() {
         {isPending ? (
           <>
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            Saving...
+            {t("settingsForm.saving")}
           </>
         ) : (
-          "Save Changes"
+          t("settingsForm.saveChanges")
         )}
       </Button>
     </div>

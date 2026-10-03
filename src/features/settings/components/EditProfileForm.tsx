@@ -21,8 +21,10 @@ import type { TUpdateAdminProfileRequest } from "@/apis/auth.api";
 import { uploadMedia, deleteMedia } from "@/apis/media.api";
 import { useAuthStore } from "@/stores/auth.store";
 import { useModalStore } from "@/stores/modal.store";
+import { useTranslation } from "react-i18next";
 
 export function EditProfileForm() {
+  const { t } = useTranslation();
   const { adminData, setAuth, csrfToken } = useAuthStore();
   const showModal = useModalStore((state) => state.showModal);
   const updateProfileMutation = useUpdateProfileMutation();
@@ -107,9 +109,9 @@ export function EditProfileForm() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-xl">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Edit Profile</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">{t("settingsForm.editProfileTitle")}</h2>
         <p className="text-muted-foreground text-[15px] max-w-lg">
-          Update your personal details, profile picture, and account settings to keep your information accurate and up-to-date.
+          {t("settingsForm.editProfileDesc")}
         </p>
       </div>
 
@@ -163,11 +165,11 @@ export function EditProfileForm() {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-sm font-medium text-foreground">
-                  Full Name
+                  {t("settingsForm.fullName")}
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your full name"
+                    placeholder={t("settingsForm.fullName")}
                     className="h-12 bg-transparent border-border rounded-xl"
                     {...field}
                   />
@@ -183,11 +185,11 @@ export function EditProfileForm() {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-sm font-medium text-foreground">
-                  Phone Number
+                  {t("settingsForm.phoneNumber")}
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your phone number"
+                    placeholder={t("settingsForm.phoneNumber")}
                     className="h-12 bg-transparent border-border rounded-xl"
                     {...field}
                   />
@@ -197,15 +199,15 @@ export function EditProfileForm() {
             )}
           />
 
-          <div className="space-y-2" title="Email address cannot be changed.">
-            <label className="text-sm font-medium text-foreground">Email Address</label>
+          <div className="space-y-2" title={t("settingsForm.emailCannotBeChanged")}>
+            <label className="text-sm font-medium text-foreground">{t("settingsForm.emailAddress")}</label>
             <Input 
               type="email"
               value={adminData?.email || ""}
               readOnly
               className="h-12 bg-transparent border-border rounded-xl opacity-70 cursor-not-allowed focus-visible:ring-0"
             />
-            <p className="text-xs text-muted-foreground">Email address cannot be changed.</p>
+            <p className="text-xs text-muted-foreground">{t("settingsForm.emailCannotBeChanged")}</p>
           </div>
 
           <Button
@@ -216,10 +218,10 @@ export function EditProfileForm() {
             {updateProfileMutation.isPending ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Saving...
+                {t("settingsForm.saving")}
               </>
             ) : (
-              "Save Changes"
+              t("settingsForm.saveChanges")
             )}
           </Button>
         </form>

@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EarningSummaryCards } from "@/features/earnings/components/EarningSummaryCards";
 import { EarningsTable } from "@/features/earnings/components/EarningsTable";
 import { useEarningsQuery } from "@/apis/earnings.api";
+import { useTranslation } from "react-i18next";
 
 type TabType = "all" | "clubs" | "events";
 
@@ -18,6 +19,7 @@ const getServiceTypeParam = (tab: TabType) => {
 };
 
 export default function EarningsPage() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [page, setPage] = useState(1);
 
@@ -77,9 +79,9 @@ export default function EarningsPage() {
   return (
     <div className="max-w-[1400px] mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Earnings</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">{t("earnings.title")}</h1>
         <p className="text-muted-foreground">
-          Track transactions, payouts, and commission settings
+          {t("earnings.subtitle")}
         </p>
       </div>
 
@@ -95,19 +97,19 @@ export default function EarningsPage() {
               value="all"
               className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground rounded-none border-b-2 border-transparent px-0 py-3 text-base font-medium text-muted-foreground transition-all"
             >
-              All Earnings
+              {t("earnings.allEarnings")}
             </TabsTrigger>
             <TabsTrigger
               value="clubs"
               className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground rounded-none border-b-2 border-transparent px-0 py-3 text-base font-medium text-muted-foreground transition-all"
             >
-              Clubs Earning
+              {t("earnings.clubsEarning")}
             </TabsTrigger>
             <TabsTrigger
               value="events"
               className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground rounded-none border-b-2 border-transparent px-0 py-3 text-base font-medium text-muted-foreground transition-all"
             >
-              Events Earning
+              {t("earnings.eventsEarning")}
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -115,11 +117,11 @@ export default function EarningsPage() {
 
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-          <h2 className="text-xl font-bold text-foreground">Earning Overview</h2>
+          <h2 className="text-xl font-bold text-foreground">{t("earnings.earningOverview")}</h2>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search"
+              placeholder={t("earnings.search")}
               className="pl-9 bg-muted/30 border-border rounded-lg h-10"
             />
           </div>
@@ -139,9 +141,9 @@ export default function EarningsPage() {
             <div className="h-16 w-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
               <span className="text-2xl text-muted-foreground opacity-50">!</span>
             </div>
-            <h3 className="text-lg font-semibold text-foreground mb-1">No data found</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-1">{t("earnings.noDataFound")}</h3>
             <p className="text-muted-foreground text-sm max-w-sm">
-              There are no earning records for this category yet.
+              {t("earnings.noDataDesc")}
             </p>
           </div>
         )}

@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { useLegalContentQuery, useUpdateLegalContentMutation } from "@/apis/legal.api";
 import type { TLegalType } from "@/apis/legal.api";
 import { useModalStore } from "@/stores/modal.store";
+import { useTranslation } from "react-i18next";
 
 interface SettingsEditorFormProps {
   title: string;
@@ -13,6 +14,7 @@ interface SettingsEditorFormProps {
 }
 
 export function SettingsEditorForm({ title, subtitle, type }: SettingsEditorFormProps) {
+  const { t } = useTranslation();
   const editor = useRef(null);
   const showModal = useModalStore((state) => state.showModal);
   const [content, setContent] = useState("");
@@ -128,10 +130,10 @@ export function SettingsEditorForm({ title, subtitle, type }: SettingsEditorForm
         {updateMutation.isPending ? (
           <>
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            Saving...
+            {t("settingsForm.saving")}
           </>
         ) : (
-          "Save"
+          t("settingsForm.save")
         )}
       </Button>
     </div>

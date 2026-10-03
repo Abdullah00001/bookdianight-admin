@@ -7,26 +7,29 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { EarningTransaction } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface EarningsTableProps {
   data: EarningTransaction[];
 }
 
 export function EarningsTable({ data }: EarningsTableProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="overflow-hidden border border-border rounded-xl">
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-muted/50">
             <TableRow>
-              <TableHead className="py-4">Name</TableHead>
-              <TableHead className="py-4">Created By</TableHead>
-              <TableHead className="py-4">Date & Time</TableHead>
-              <TableHead className="py-4">Location</TableHead>
-              <TableHead className="py-4">Price</TableHead>
-              <TableHead className="py-4">Commission</TableHead>
-              <TableHead className="py-4">Earning</TableHead>
-              <TableHead className="py-4">Status</TableHead>
+              <TableHead className="py-4">{t("earningsTable.name")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.createdBy")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.dateAndTime")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.location")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.price")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.commission")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.earning")}</TableHead>
+              <TableHead className="py-4">{t("earningsTable.status")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -38,7 +41,7 @@ export function EarningsTable({ data }: EarningsTableProps) {
                       <img src={row.image} alt={row.name} className="h-8 w-12 object-cover rounded-md" />
                     ) : (
                       <div className="h-8 w-12 bg-muted rounded-md flex items-center justify-center text-xs text-muted-foreground font-medium">
-                        {row.serviceType === 'CLUB' ? 'Club' : 'Event'}
+                        {row.serviceType === 'CLUB' ? t("earningsTable.club") : t("earningsTable.event")}
                       </div>
                     )}
                     <span className="font-medium text-foreground line-clamp-2">{row.name}</span>
@@ -66,7 +69,7 @@ export function EarningsTable({ data }: EarningsTableProps) {
                         : "bg-yellow-50 text-yellow-700 border-yellow-200"
                     }`}
                   >
-                    {row.status}
+                    {row.status === "Completed" ? t("earningsTable.statusCompleted") : row.status === "Canceled" ? t("earningsTable.statusCanceled") : row.status}
                   </span>
                 </TableCell>
               </TableRow>

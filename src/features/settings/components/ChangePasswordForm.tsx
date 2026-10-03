@@ -18,8 +18,10 @@ import {
 } from "@/apis/auth.api";
 import type { TChangeAdminPasswordRequest } from "@/apis/auth.api";
 import { useModalStore } from "@/stores/modal.store";
+import { useTranslation } from "react-i18next";
 
 export function ChangePasswordForm() {
+  const { t } = useTranslation();
   const changePasswordMutation = useChangePasswordMutation();
   const showModal = useModalStore((state) => state.showModal);
 
@@ -55,9 +57,9 @@ export function ChangePasswordForm() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-xl">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Change Password</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">{t("settingsForm.changePasswordTitle")}</h2>
         <p className="text-muted-foreground text-[15px]">
-          Your password must be 8-18 characters long.
+          {t("settingsForm.changePasswordDesc")}
         </p>
       </div>
 
@@ -69,7 +71,7 @@ export function ChangePasswordForm() {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-sm font-medium text-muted-foreground">
-                  Current Password
+                  {t("settingsForm.currentPassword")}
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -99,7 +101,7 @@ export function ChangePasswordForm() {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-sm font-medium text-muted-foreground">
-                  New Password
+                  {t("settingsForm.newPassword")}
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -129,7 +131,7 @@ export function ChangePasswordForm() {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-sm font-medium text-muted-foreground">
-                  Confirm Password
+                  {t("settingsForm.confirmPassword")}
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -161,10 +163,10 @@ export function ChangePasswordForm() {
             {changePasswordMutation.isPending ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Saving...
+                {t("settingsForm.saving")}
               </>
             ) : (
-              "Save Changes"
+              t("settingsForm.saveChanges")
             )}
           </Button>
         </form>

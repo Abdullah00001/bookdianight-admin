@@ -4,8 +4,10 @@ import { CommissionSetupForm } from "@/features/settings/components/CommissionSe
 import { EditProfileForm } from "@/features/settings/components/EditProfileForm";
 import { ChangePasswordForm } from "@/features/settings/components/ChangePasswordForm";
 import { SettingsEditorForm } from "@/features/settings/components/SettingsEditorForm";
+import { useTranslation } from "react-i18next";
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("commission");
 
   return (
@@ -14,12 +16,12 @@ export default function SettingsPage() {
         <div className="border-b border-border overflow-x-auto mb-10 pb-0">
           <TabsList className="bg-transparent h-auto p-0 flex gap-8 justify-start min-w-max">
             {[
-              { id: "commission", label: "Commission Setup" },
-              { id: "profile", label: "Edit Profile" },
-              { id: "password", label: "Change Password" },
-              { id: "about", label: "About Us" },
-              { id: "privacy", label: "Privacy Policy" },
-              { id: "terms", label: "Terms & Conditions" },
+              { id: "commission", label: t("settings.commissionSetup") },
+              { id: "profile", label: t("settings.editProfile") },
+              { id: "password", label: t("settings.changePassword") },
+              { id: "about", label: t("settings.aboutUs") },
+              { id: "privacy", label: t("settings.privacyPolicy") },
+              { id: "terms", label: t("settings.termsAndConditions") },
             ].map((tab) => (
               <TabsTrigger
                 key={tab.id}
@@ -44,22 +46,22 @@ export default function SettingsPage() {
           </TabsContent>
           <TabsContent value="about" className="mt-0 outline-none animate-in fade-in duration-500">
             <SettingsEditorForm 
-              title="About Us"
-              subtitle="View and update your personal information, change passwords for a personalized experience"
+              title={t("settings.aboutUs")}
+              subtitle={t("settings.settingsSubtitle")}
               type="about"
             />
           </TabsContent>
           <TabsContent value="privacy" className="mt-0 outline-none animate-in fade-in duration-500">
             <SettingsEditorForm 
-              title="Privacy Policy"
-              subtitle="View and update your personal information, change passwords for a personalized experience"
+              title={t("settings.privacyPolicy")}
+              subtitle={t("settings.settingsSubtitle")}
               type="privacy"
             />
           </TabsContent>
           <TabsContent value="terms" className="mt-0 outline-none animate-in fade-in duration-500">
             <SettingsEditorForm 
-              title="Terms & Conditions"
-              subtitle="View and update your personal information, change passwords for a personalized experience"
+              title={t("settings.termsAndConditions")}
+              subtitle={t("settings.settingsSubtitle")}
               type="terms"
             />
           </TabsContent>
