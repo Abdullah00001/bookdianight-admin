@@ -4,6 +4,7 @@ import { EventCard } from '@/features/events/components/EventCard';
 import { EventDetailsModal } from '@/features/events/components/EventDetailsModal';
 import { useEventsQuery } from '@/apis/events.api';
 import type { Event } from '@/features/events/types';
+import { useTranslation } from 'react-i18next';
 
 type TabType = 'upcoming' | 'ongoing' | 'completed' | 'canceled';
 
@@ -18,6 +19,7 @@ const getEventStatusParam = (tab: TabType) => {
 };
 
 export default function EventsPage() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>('ongoing');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [page, setPage] = useState(1);
@@ -78,9 +80,9 @@ export default function EventsPage() {
   return (
     <div className="flex-1 space-y-8 p-8 pt-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-bold tracking-tight">Event List</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t("events.eventList")}</h2>
         <p className="text-muted-foreground">
-          View the all ongoing, complete event list
+          {t("events.eventListDesc")}
         </p>
       </div>
 
@@ -91,7 +93,7 @@ export default function EventsPage() {
             activeTab === 'upcoming' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          Upcoming
+          {t("events.upcoming")}
           {activeTab === 'upcoming' && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -102,7 +104,7 @@ export default function EventsPage() {
             activeTab === 'ongoing' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          Ongoing Events
+          {t("events.ongoingEvents")}
           {activeTab === 'ongoing' && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -113,7 +115,7 @@ export default function EventsPage() {
             activeTab === 'completed' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          Completed
+          {t("events.completed")}
           {activeTab === 'completed' && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -124,7 +126,7 @@ export default function EventsPage() {
             activeTab === 'canceled' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          Canceled
+          {t("events.canceled")}
           {activeTab === 'canceled' && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -153,8 +155,8 @@ export default function EventsPage() {
           <div className="bg-gray-100 p-4 rounded-full mb-4">
             <Inbox className="h-8 w-8 text-muted-foreground" />
           </div>
-          <p className="text-xl font-semibold text-foreground">No data found</p>
-          <p className="text-muted-foreground mt-2">There are currently no events in this category.</p>
+          <p className="text-xl font-semibold text-foreground">{t("events.noDataFound")}</p>
+          <p className="text-muted-foreground mt-2">{t("events.noEventsFound")}</p>
         </div>
       )}
 

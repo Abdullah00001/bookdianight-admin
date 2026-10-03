@@ -1,4 +1,5 @@
 import type { Event } from '../types';
+import { useTranslation } from "react-i18next";
 
 interface EventCardProps {
   event: Event;
@@ -6,6 +7,8 @@ interface EventCardProps {
 }
 
 export function EventCard({ event, onClick }: EventCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div 
       className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
@@ -21,27 +24,27 @@ export function EventCard({ event, onClick }: EventCardProps) {
       
       <div className="flex flex-col p-5 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Name</span>
+          <span className="text-sm text-muted-foreground">{t("commonCards.name")}</span>
           <span className="text-sm font-medium text-foreground text-right">{event.name}</span>
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Date & Time</span>
+          <span className="text-sm text-muted-foreground">{t("commonCards.dateAndTime")}</span>
           <span className="text-sm font-medium text-foreground text-right">{event.dateAndTime}</span>
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Table</span>
+          <span className="text-sm text-muted-foreground">{t("commonCards.table")}</span>
           <span className="text-sm font-medium text-foreground text-right">{event.table}</span>
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Country</span>
+          <span className="text-sm text-muted-foreground">{t("commonCards.country")}</span>
           <span className="text-sm font-medium text-foreground text-right">{event.country}</span>
         </div>
         
         <div className="flex items-center justify-between pt-1">
-          <span className="text-sm text-muted-foreground">Price</span>
+          <span className="text-sm text-muted-foreground">{t("commonCards.price")}</span>
           <span className="text-sm font-semibold text-foreground text-right">{event.price} {event.currency}</span>
         </div>
       </div>

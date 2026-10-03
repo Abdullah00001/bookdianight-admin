@@ -1,6 +1,7 @@
 import { X, Clock, MapPin } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import type { Club } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface ClubDetailsModalProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ export function ClubDetailsModal({
   onClose,
   club,
 }: ClubDetailsModalProps) {
+  const { t } = useTranslation();
+
   if (!club) return null;
 
   return (
@@ -63,7 +66,7 @@ export function ClubDetailsModal({
           <div className="p-6 pt-4 max-h-[350px] overflow-y-auto">
             {club.description && (
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-4">About</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-4">{t("commonCards.about")}</h3>
                 <p className="text-muted-foreground leading-relaxed text-[15px]">
                   {club.description}
                 </p>
@@ -73,7 +76,7 @@ export function ClubDetailsModal({
             {club.images && club.images.length > 0 && (
               <div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">
-                  Photos
+                  {t("commonCards.photos")}
                 </h3>
                 <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
                   {club.images.map((photo, index) => (

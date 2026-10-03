@@ -1,6 +1,7 @@
 import { X, Clock, MapPin } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import type { Event } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface EventDetailsModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface EventDetailsModalProps {
 }
 
 export function EventDetailsModal({ isOpen, onClose, event }: EventDetailsModalProps) {
+  const { t } = useTranslation();
+
   if (!event) return null;
 
   return (
@@ -57,7 +60,7 @@ export function EventDetailsModal({ isOpen, onClose, event }: EventDetailsModalP
           <div className="p-6 pt-4 max-h-[350px] overflow-y-auto">
             {event.description && (
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-4">About</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-4">{t("commonCards.about")}</h3>
                 <p className="text-muted-foreground leading-relaxed text-[15px]">
                   {event.description}
                 </p>
@@ -66,7 +69,7 @@ export function EventDetailsModal({ isOpen, onClose, event }: EventDetailsModalP
 
             {event.images && event.images.length > 0 && (
               <div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">Photos</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-4">{t("commonCards.photos")}</h3>
                 <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
                   {event.images.map((photo, index) => (
                     <img 

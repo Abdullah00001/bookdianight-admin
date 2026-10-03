@@ -59,5 +59,32 @@
     "of": "of",
     "search": "Search"
   },
+  "clubs": {
+    "clubList": "Club List",
+    "clubListDesc": "View the all ongoing, complete club list",
+    "active": "Active",
+    "inActive": "In-Active",
+    "noDataFound": "No data found",
+    "noClubsFound": "There are currently no clubs in this category."
+  },
+  "events": {
+    "eventList": "Event List",
+    "eventListDesc": "View the all ongoing, complete event list",
+    "upcoming": "Upcoming",
+    "ongoingEvents": "Ongoing Events",
+    "completed": "Completed",
+    "canceled": "Canceled",
+    "noDataFound": "No data found",
+    "noEventsFound": "There are currently no events in this category."
+  },
+  "commonCards": {
+    "name": "Name",
+    "dateAndTime": "Date & Time",
+    "table": "Table",
+    "country": "Country",
+    "price": "Price",
+    "about": "About",
+    "photos": "Photos"
+  },
   "language": "Language"
 }

@@ -4,10 +4,12 @@ import { ClubCard } from "@/features/clubs/components/ClubCard";
 import { ClubDetailsModal } from "@/features/clubs/components/ClubDetailsModal";
 import { useClubsQuery } from "@/apis/clubs.api";
 import type { Club } from "@/features/clubs/types";
+import { useTranslation } from "react-i18next";
 
 type TabType = "active" | "in-active";
 
 export default function ClubsPage() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("active");
   const [selectedClub, setSelectedClub] = useState<Club | null>(null);
   const [page, setPage] = useState(1);
@@ -68,9 +70,9 @@ export default function ClubsPage() {
   return (
     <div className="flex-1 space-y-8 p-8 pt-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-bold tracking-tight">Club List</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t("clubs.clubList")}</h2>
         <p className="text-muted-foreground">
-          View the all ongoing, complete club list
+          {t("clubs.clubListDesc")}
         </p>
       </div>
 
@@ -83,7 +85,7 @@ export default function ClubsPage() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Active
+          {t("clubs.active")}
           {activeTab === "active" && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -96,7 +98,7 @@ export default function ClubsPage() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          In-Active
+          {t("clubs.inActive")}
           {activeTab === "in-active" && (
             <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
           )}
@@ -125,9 +127,9 @@ export default function ClubsPage() {
           <div className="bg-gray-100 p-4 rounded-full mb-4">
             <Inbox className="h-8 w-8 text-muted-foreground" />
           </div>
-          <p className="text-xl font-semibold text-foreground">No data found</p>
+          <p className="text-xl font-semibold text-foreground">{t("clubs.noDataFound")}</p>
           <p className="text-muted-foreground mt-2">
-            There are currently no clubs in this category.
+            {t("clubs.noClubsFound")}
           </p>
         </div>
       )}

@@ -59,5 +59,32 @@
     "of": "di",
     "search": "Cerca"
   },
+  "clubs": {
+    "clubList": "Lista Club",
+    "clubListDesc": "Visualizza l'elenco completo dei club in corso",
+    "active": "Attivo",
+    "inActive": "Inattivo",
+    "noDataFound": "Nessun dato trovato",
+    "noClubsFound": "Attualmente non ci sono club in questa categoria."
+  },
+  "events": {
+    "eventList": "Lista Eventi",
+    "eventListDesc": "Visualizza l'elenco completo degli eventi in corso",
+    "upcoming": "In Arrivo",
+    "ongoingEvents": "Eventi in Corso",
+    "completed": "Completato",
+    "canceled": "Annullato",
+    "noDataFound": "Nessun dato trovato",
+    "noEventsFound": "Attualmente non ci sono eventi in questa categoria."
+  },
+  "commonCards": {
+    "name": "Nome",
+    "dateAndTime": "Data e Ora",
+    "table": "Tavolo",
+    "country": "Paese",
+    "price": "Prezzo",
+    "about": "Informazioni",
+    "photos": "Foto"
+  },
   "language": "Lingua"
 }
