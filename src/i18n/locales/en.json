@@ -38,5 +38,26 @@
     "actions": "Actions",
     "noRecentUsers": "No recent users found"
   },
+  "accounts": {
+    "usersOverview": "Users Overview",
+    "usersOverviewDesc": "View and manage all user accounts, track active users, and monitor business registrations for a seamless platform experience.",
+    "clubOwnerOverview": "Club Owner Overview",
+    "clubOwnerOverviewDesc": "View and manage all user accounts, track active users, and monitor business registrations for a seamless platform experience.",
+    "usersManagement": "Users Management",
+    "clubOwnerManagement": "Club Owner Management",
+    "serialNo": "Serial No.",
+    "name": "Name",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "country": "Country",
+    "joinDate": "Join Date",
+    "booking": "Booking",
+    "actions": "Actions",
+    "noUsersFound": "No users found",
+    "noClubOwnersFound": "No club owners found",
+    "page": "Page",
+    "of": "of",
+    "search": "Search"
+  },
   "language": "Language"
 }

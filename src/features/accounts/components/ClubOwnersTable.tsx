@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Eye, ChevronLeft, ChevronRight, MoreHorizontal, Loader2 } from "lucide-react";
+import { Search, Eye, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -13,8 +13,10 @@ import { UserDetailsModal } from "@/features/dashboard/components/UserDetailsMod
 import { useUsersQuery } from "@/apis/users.api";
 import type { TUser } from "@/apis/users.api";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export function ClubOwnersTable() {
+  const { t } = useTranslation();
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -37,19 +39,19 @@ export function ClubOwnersTable() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-bold text-foreground">
-              Club Owner Management
+              {t("accounts.clubOwnerManagement")}
             </h3>
             {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
           </div>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search"
+              placeholder={t("accounts.search")}
               className="pl-9 bg-muted/50 border-none rounded-lg h-10"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
-                setPage(1); // Reset page on search
+                setPage(1);
               }}
             />
           </div>
@@ -60,25 +62,25 @@ export function ClubOwnersTable() {
             <TableHeader>
               <TableRow className="bg-muted/50 border-none hover:bg-muted/50">
                 <TableHead className="rounded-l-lg py-4 font-medium text-muted-foreground w-20">
-                  Serial No.
+                  {t("accounts.serialNo")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Name
+                  {t("accounts.name")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Phone Number
+                  {t("accounts.phoneNumber")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Email
+                  {t("accounts.email")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Country
+                  {t("accounts.country")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Join Date
+                  {t("accounts.joinDate")}
                 </TableHead>
                 <TableHead className="rounded-r-lg py-4 font-medium text-muted-foreground text-center">
-                  Actions
+                  {t("accounts.actions")}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -119,7 +121,7 @@ export function ClubOwnersTable() {
               {!isLoading && users.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    No club owners found
+                    {t("accounts.noClubOwnersFound")}
                   </TableCell>
                 </TableRow>
               )}
@@ -127,7 +129,6 @@ export function ClubOwnersTable() {
           </Table>
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-end gap-2 mt-6">
             <button 
@@ -138,7 +139,7 @@ export function ClubOwnersTable() {
               <ChevronLeft className="h-4 w-4" />
             </button>
             <span className="text-sm text-muted-foreground">
-              Page {page} of {totalPages}
+              {t("accounts.page")} {page} {t("accounts.of")} {totalPages}
             </span>
             <button 
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}

@@ -38,5 +38,26 @@
     "actions": "Azioni",
     "noRecentUsers": "Nessun utente recente trovato"
   },
+  "accounts": {
+    "usersOverview": "Panoramica Utenti",
+    "usersOverviewDesc": "Visualizza e gestisci tutti gli account utente, tieni traccia degli utenti attivi e monitora le registrazioni aziendali per un'esperienza fluida sulla piattaforma.",
+    "clubOwnerOverview": "Panoramica Proprietari di Club",
+    "clubOwnerOverviewDesc": "Visualizza e gestisci tutti gli account utente, tieni traccia degli utenti attivi e monitora le registrazioni aziendali per un'esperienza fluida sulla piattaforma.",
+    "usersManagement": "Gestione Utenti",
+    "clubOwnerManagement": "Gestione Proprietari di Club",
+    "serialNo": "N. Seriale",
+    "name": "Nome",
+    "phoneNumber": "Numero di Telefono",
+    "email": "Email",
+    "country": "Paese",
+    "joinDate": "Data di Iscrizione",
+    "booking": "Prenotazioni",
+    "actions": "Azioni",
+    "noUsersFound": "Nessun utente trovato",
+    "noClubOwnersFound": "Nessun proprietario di club trovato",
+    "page": "Pagina",
+    "of": "di",
+    "search": "Cerca"
+  },
   "language": "Lingua"
 }
