@@ -13,8 +13,10 @@ import { UserDetailsModal } from "./UserDetailsModal";
 import { useUsersQuery } from "@/apis/users.api";
 import type { TUser } from "@/apis/users.api";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export function RecentUsersTable() {
+  const { t } = useTranslation();
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
   const [search, setSearch] = useState("");
   
@@ -31,14 +33,14 @@ export function RecentUsersTable() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-bold text-foreground">
-              Recently Register Users
+              {t("dashboard.recentlyRegisterUsers")}
             </h3>
             {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
           </div>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search"
+              placeholder={t("dashboard.search")}
               className="pl-9 bg-muted/50 border-none rounded-lg h-10"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -51,25 +53,25 @@ export function RecentUsersTable() {
             <TableHeader>
               <TableRow className="bg-muted/50 border-none hover:bg-muted/50">
                 <TableHead className="rounded-l-lg py-4 font-medium text-muted-foreground">
-                  Name
+                  {t("dashboard.name")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Phone Number
+                  {t("dashboard.phoneNumber")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Email
+                  {t("dashboard.email")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Account Type
+                  {t("dashboard.accountType")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Country
+                  {t("dashboard.country")}
                 </TableHead>
                 <TableHead className="py-4 font-medium text-muted-foreground">
-                  Join Date
+                  {t("dashboard.joinDate")}
                 </TableHead>
                 <TableHead className="rounded-r-lg py-4 font-medium text-muted-foreground text-center">
-                  Actions
+                  {t("dashboard.actions")}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -89,7 +91,7 @@ export function RecentUsersTable() {
                     {user.email}
                   </TableCell>
                   <TableCell className="py-4 text-sm text-foreground">
-                    {user.accountRole === "CLUB_OWNER" ? "Club Owner" : "User"}
+                    {user.accountRole === "CLUB_OWNER" ? t("dashboard.clubOwner") : t("dashboard.user")}
                   </TableCell>
                   <TableCell className="py-4 text-sm text-foreground">
                     {user.country || "-"}
@@ -110,7 +112,7 @@ export function RecentUsersTable() {
               {!isLoading && users.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    No recent users found
+                    {t("dashboard.noRecentUsers")}
                   </TableCell>
                 </TableRow>
               )}

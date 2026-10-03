@@ -1,0 +1,42 @@
+{
+  "sidebar": {
+    "mainMenu": "Menu Principale",
+    "dashboard": "Bacheca",
+    "accounts": "Account",
+    "users": "Utenti",
+    "clubOwner": "Proprietario del Club",
+    "clubs": "Club",
+    "events": "Eventi",
+    "earning": "Guadagni",
+    "support": "Supporto",
+    "settings": "Impostazioni",
+    "logout": "Esci",
+    "loggingOut": "Uscita in corso..."
+  },
+  "header": {
+    "welcomeBack": "Bentornato,",
+    "admin": "Amministratore"
+  },
+  "dashboard": {
+    "title": "Bacheca",
+    "subtitle": "Bentornato! Ecco cosa succede oggi.",
+    "totalEarning": "Guadagni Totali",
+    "totalUsers": "Utenti Totali",
+    "totalClubOwner": "Proprietari di Club Totali",
+    "userManagement": "Gestione Utenti",
+    "accountType": "Tipo di Account",
+    "user": "Utente",
+    "clubOwner": "Proprietario del Club",
+    "year": "Anno",
+    "recentlyRegisterUsers": "Utenti Registrati di Recente",
+    "search": "Cerca",
+    "name": "Nome",
+    "phoneNumber": "Numero di Telefono",
+    "email": "Email",
+    "country": "Paese",
+    "joinDate": "Data di Iscrizione",
+    "actions": "Azioni",
+    "noRecentUsers": "Nessun utente recente trovato"
+  },
+  "language": "Lingua"
+}

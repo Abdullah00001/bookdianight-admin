@@ -17,6 +17,7 @@ import {
 import type { TDashboardData } from "@/apis/dashboard.api";
 import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 interface UserManagementChartProps {
   data?: TDashboardData;
@@ -28,6 +29,7 @@ interface UserManagementChartProps {
 }
 
 export function UserManagementChart({ data, isLoading, year, setYear, role, setRole }: UserManagementChartProps) {
+  const { t } = useTranslation();
   const chartData = data?.userManagementChart || [];
   const currentYear = new Date().getFullYear().toString();
   const availableYears = data?.availableYears?.length 
@@ -43,23 +45,23 @@ export function UserManagementChart({ data, isLoading, year, setYear, role, setR
     <div className="bg-card border border-border rounded-2xl p-6 mb-6 shadow-sm">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-3">
-          <h3 className="text-xl font-bold text-foreground">User Management</h3>
+          <h3 className="text-xl font-bold text-foreground">{t("dashboard.userManagement")}</h3>
           {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
         <div className="flex flex-wrap items-center gap-4">
           <Select value={role === "" ? "all" : role} onValueChange={(val) => setRole(val === "all" ? "" : val as any)}>
             <SelectTrigger className="w-[140px] rounded-lg">
-              <SelectValue placeholder="Account Type" />
+              <SelectValue placeholder={t("dashboard.accountType")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Account Type</SelectItem>
-              <SelectItem value="USER">User</SelectItem>
-              <SelectItem value="CLUB_OWNER">Club Owner</SelectItem>
+              <SelectItem value="all">{t("dashboard.accountType")}</SelectItem>
+              <SelectItem value="USER">{t("dashboard.user")}</SelectItem>
+              <SelectItem value="CLUB_OWNER">{t("dashboard.clubOwner")}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={year} onValueChange={setYear}>
             <SelectTrigger className="w-[100px] rounded-lg">
-              <SelectValue placeholder="Year" />
+              <SelectValue placeholder={t("dashboard.year")} />
             </SelectTrigger>
             <SelectContent>
               {availableYears.map((yr) => (

@@ -1,6 +1,7 @@
 import { Euro, Users } from "lucide-react";
 import type { TDashboardData } from "@/apis/dashboard.api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 interface MetricCardsProps {
   data?: TDashboardData;
@@ -8,19 +9,21 @@ interface MetricCardsProps {
 }
 
 export function MetricCards({ data, isLoading }: MetricCardsProps) {
+  const { t } = useTranslation();
+
   const metrics = [
     {
-      title: "Total Earning",
+      title: t("dashboard.totalEarning"),
       value: `€ ${data?.totalEarning?.toLocaleString() ?? "0"}`,
       icon: Euro,
     },
     {
-      title: "Total Users",
+      title: t("dashboard.totalUsers"),
       value: data?.totalUsers?.toLocaleString() ?? "0",
       icon: Users,
     },
     {
-      title: "Total Club Owner",
+      title: t("dashboard.totalClubOwner"),
       value: data?.totalClubOwners?.toLocaleString() ?? "0",
       icon: Users,
     },

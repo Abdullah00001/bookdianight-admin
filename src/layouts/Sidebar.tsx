@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   LayoutDashboard,
   User,
@@ -16,28 +17,29 @@ import { useModalStore } from "@/stores/modal.store";
 import { useLogoutMutation } from "@/apis/auth.api";
 
 const mainMenuLinks = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { key: "dashboard", href: "/dashboard", icon: LayoutDashboard },
   { 
-    name: "Accounts", 
+    key: "accounts", 
     href: "/accounts", 
     icon: User, 
     hasSubmenu: true,
     submenu: [
-      { name: "Users", href: "/accounts/users" },
-      { name: "Club Owner", href: "/accounts/club-owners" },
+      { key: "users", href: "/accounts/users" },
+      { key: "clubOwner", href: "/accounts/club-owners" },
     ]
   },
-  { name: "Clubs", href: "/clubs", icon: Globe },
-  { name: "Events", href: "/events", icon: PartyPopper },
-  { name: "Earning", href: "/earning", icon: Wallet },
+  { key: "clubs", href: "/clubs", icon: Globe },
+  { key: "events", href: "/events", icon: PartyPopper },
+  { key: "earning", href: "/earning", icon: Wallet },
 ];
 
 const supportLinks = [
-  { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Logout", href: "#", icon: LogOut, action: "logout" },
+  { key: "settings", href: "/settings", icon: Settings },
+  { key: "logout", href: "#", icon: LogOut, action: "logout" },
 ];
 
 export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const logoutMutation = useLogoutMutation();
@@ -72,7 +74,6 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
         useModalStore.getState().showModal("Logged Out", "You have successfully logged out.", "success");
       },
       onError: (err) => {
-        // Even if it fails (e.g. session already invalid), we log them out of the UI
         console.error("Logout failed:", err);
         clearAuth();
         navigate("/login");
@@ -82,7 +83,6 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
 
   return (
     <div className="flex flex-col h-full bg-[#FAFAFA] w-full">
-      {/* Logo */}
       <div className="flex items-center justify-center h-24 mt-4 mb-6">
         <img
           src={logoImage}
@@ -92,18 +92,17 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
       </div>
 
       <div className="flex-1 px-4">
-        {/* Main Menu */}
         <div className="mb-8">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-4">
-            Main Menu
+            {t("sidebar.mainMenu")}
           </p>
           <ul className="space-y-2">
             {mainMenuLinks.map((link) => {
-              const isAccountsActive = link.name === "Accounts" && location.pathname.startsWith("/accounts");
+              const isAccountsActive = link.key === "accounts" && location.pathname.startsWith("/accounts");
               
               if (link.hasSubmenu) {
                 return (
-                  <li key={link.name}>
+                  <li key={link.key}>
                     <button
                       onClick={toggleAccounts}
                       className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-colors relative z-10 border ${
@@ -114,12 +113,11 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                     >
                       <div className="flex items-center gap-3">
                         <link.icon className="h-5 w-5 text-muted-foreground" />
-                        <span className="text-muted-foreground">{link.name}</span>
+                        <span className="text-muted-foreground">{t(`sidebar.${link.key}`)}</span>
                       </div>
                       <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${isAccountsOpen ? "" : "-rotate-90"}`} />
                     </button>
                     
-                    {/* Submenu */}
                     {isAccountsOpen && (
                       <div className="mt-2 ml-[22px] relative space-y-2 pb-1">
                         {link.submenu?.map((subItem, index) => {
@@ -127,15 +125,12 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                           const isSubItemActive = location.pathname === subItem.href;
                           
                           return (
-                            <li key={subItem.name} className="relative pl-6 list-none">
-                              {/* Straight gold spine segment for this item */}
-                              {/* For the last item, it stops exactly where the 12px curve begins so it doesn't poke out! */}
+                            <li key={subItem.key} className="relative pl-6 list-none">
                               <div 
                                 className={`absolute left-0 w-[2px] bg-primary z-10 ${!isLast ? 'top-[-12px] bottom-[-12px]' : 'top-[-12px]'}`}
                                 style={isLast ? { bottom: "calc(50% + 11px)" } : {}}
                               ></div>
                               
-                              {/* Curved branch emerging from behind the gold spine */}
                               <div className={`absolute left-0 top-0 bottom-1/2 w-6 border-l-[2px] border-b-[2px] rounded-bl-xl border-t-0 border-r-0 z-0 ${isSubItemActive ? 'border-primary' : 'border-[#CBD5E1]'}`}></div>
                               
                               <NavLink
@@ -149,7 +144,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                                   }`
                                 }
                               >
-                                {subItem.name}
+                                {t(`sidebar.${subItem.key}`)}
                               </NavLink>
                             </li>
                           );
@@ -161,7 +156,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
               }
 
               return (
-                <li key={link.name}>
+                <li key={link.key}>
                   <NavLink
                     to={link.href}
                     onClick={onClickItem}
@@ -175,7 +170,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                   >
                     <div className="flex items-center gap-3">
                       <link.icon className="h-5 w-5" />
-                      {link.name}
+                      {t(`sidebar.${link.key}`)}
                     </div>
                   </NavLink>
                 </li>
@@ -184,14 +179,13 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
           </ul>
         </div>
 
-        {/* Support */}
         <div>
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-4">
-            Support
+            {t("sidebar.support")}
           </p>
           <ul className="space-y-2">
             {supportLinks.map((link) => (
-              <li key={link.name}>
+              <li key={link.key}>
                 {link.action === "logout" ? (
                   <button
                     onClick={handleLogout}
@@ -199,7 +193,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                     className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border text-red-500 border-transparent hover:text-red-600 hover:bg-red-50"
                   >
                     <link.icon className={`h-5 w-5 ${logoutMutation.isPending ? "opacity-50" : ""}`} />
-                    {logoutMutation.isPending ? "Logging out..." : link.name}
+                    {logoutMutation.isPending ? t("sidebar.loggingOut") : t(`sidebar.${link.key}`)}
                   </button>
                 ) : (
                   <NavLink
@@ -214,7 +208,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                     }
                   >
                     <link.icon className="h-5 w-5" />
-                    {link.name}
+                    {t(`sidebar.${link.key}`)}
                   </NavLink>
                 )}
               </li>

@@ -1,0 +1,42 @@
+{
+  "sidebar": {
+    "mainMenu": "Main Menu",
+    "dashboard": "Dashboard",
+    "accounts": "Accounts",
+    "users": "Users",
+    "clubOwner": "Club Owner",
+    "clubs": "Clubs",
+    "events": "Events",
+    "earning": "Earning",
+    "support": "Support",
+    "settings": "Settings",
+    "logout": "Logout",
+    "loggingOut": "Logging out..."
+  },
+  "header": {
+    "welcomeBack": "Welcome back,",
+    "admin": "Admin"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back! Here's what's happening today.",
+    "totalEarning": "Total Earning",
+    "totalUsers": "Total Users",
+    "totalClubOwner": "Total Club Owner",
+    "userManagement": "User Management",
+    "accountType": "Account Type",
+    "user": "User",
+    "clubOwner": "Club Owner",
+    "year": "Year",
+    "recentlyRegisterUsers": "Recently Register Users",
+    "search": "Search",
+    "name": "Name",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "country": "Country",
+    "joinDate": "Join Date",
+    "actions": "Actions",
+    "noRecentUsers": "No recent users found"
+  },
+  "language": "Language"
+}
