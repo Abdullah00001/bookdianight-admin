@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { requestSchema, type TRequestRequest } from "../types/forgot-password.types";
 import { useRequestCodeMutation } from "../api/forgot-password.api";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 import {
   Form,
@@ -20,6 +22,7 @@ interface RequestCodeFormProps {
 
 export function RequestCodeForm({ onSuccess }: RequestCodeFormProps) {
   const mutation = useRequestCodeMutation();
+  const { toast } = useToast();
 
   const form = useForm<TRequestRequest>({
     resolver: zodResolver(requestSchema),
@@ -33,6 +36,13 @@ export function RequestCodeForm({ onSuccess }: RequestCodeFormProps) {
       onSuccess: () => {
         onSuccess(data.email);
       },
+      onError: (error: any) => {
+        toast({
+          title: "Error",
+          description: error?.response?.data?.message || "Failed to send verification code",
+          variant: "destructive",
+        });
+      }
     });
   };
 
@@ -68,8 +78,14 @@ export function RequestCodeForm({ onSuccess }: RequestCodeFormProps) {
             className="w-full text-primary-foreground text-md font-semibold py-6"
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? "Sending..." : "Send Code"}
+            {mutation.isPending ? "Sending..." : "Continue"}
           </Button>
+
+          <div className="text-center mt-4">
+            <Link to="/login" className="text-sm font-semibold text-primary hover:underline">
+              Back to Login
+            </Link>
+          </div>
         </form>
       </Form>
     </div>

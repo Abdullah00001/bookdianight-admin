@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifySchema, type TVerifyRequest } from "../types/forgot-password.types";
-import { useVerifyCodeMutation } from "../api/forgot-password.api";
+import { useVerifyCodeMutation, useResendCodeMutation } from "../api/forgot-password.api";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 import {
   Form,
@@ -24,6 +26,8 @@ interface VerifyCodeFormProps {
 
 export function VerifyCodeForm({ email, onSuccess }: VerifyCodeFormProps) {
   const mutation = useVerifyCodeMutation();
+  const resendMutation = useResendCodeMutation();
+  const { toast } = useToast();
 
   const form = useForm<TVerifyRequest>({
     resolver: zodResolver(verifySchema),
@@ -37,6 +41,31 @@ export function VerifyCodeForm({ email, onSuccess }: VerifyCodeFormProps) {
       onSuccess: () => {
         onSuccess(data.code);
       },
+      onError: (error: any) => {
+        toast({
+          title: "Verification Failed",
+          description: error?.response?.data?.message || "Invalid OTP code",
+          variant: "destructive",
+        });
+      }
+    });
+  };
+
+  const handleResend = () => {
+    resendMutation.mutate(undefined, {
+      onSuccess: () => {
+        toast({
+          title: "OTP Resent",
+          description: "A new verification code has been sent to your email.",
+        });
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Resend Failed",
+          description: error?.response?.data?.message || "Could not resend code",
+          variant: "destructive",
+        });
+      }
     });
   };
 
@@ -61,7 +90,6 @@ export function VerifyCodeForm({ email, onSuccess }: VerifyCodeFormProps) {
                 <FormControl>
                   <InputOTP maxLength={6} {...field}>
                     <InputOTPGroup className="gap-2 sm:gap-4">
-                      {/* Using 6 individual slots mapping to the screenshot */}
                       <InputOTPSlot index={0} className="!rounded-full w-12 h-12 !border border-input" />
                       <InputOTPSlot index={1} className="!rounded-full w-12 h-12 !border border-input" />
                       <InputOTPSlot index={2} className="!rounded-full w-12 h-12 !border border-input" />
@@ -83,6 +111,25 @@ export function VerifyCodeForm({ email, onSuccess }: VerifyCodeFormProps) {
           >
             {mutation.isPending ? "Verifying..." : "Verify"}
           </Button>
+
+          <div className="text-center flex flex-col gap-3 mt-4 text-sm text-muted-foreground">
+            <div>
+              Didn't receive the code?{" "}
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={resendMutation.isPending}
+                className="text-primary font-semibold hover:underline"
+              >
+                {resendMutation.isPending ? "Resending..." : "Resend Code"}
+              </button>
+            </div>
+            <div>
+              <Link to="/login" className="text-sm font-semibold text-primary hover:underline">
+                Back to Login
+              </Link>
+            </div>
+          </div>
         </form>
       </Form>
     </div>

@@ -42,7 +42,8 @@ axiosInstance.interceptors.response.use(
       error.response?.status === 401 &&
       !originalRequest._retry &&
       originalRequest.url !== "/admin/auth/refresh" &&
-      originalRequest.url !== "/admin/auth/login"
+      originalRequest.url !== "/admin/auth/login" &&
+      !originalRequest.url?.startsWith("/recover/")
     ) {
       if (isRefreshing) {
         // If already refreshing, queue this request until refresh is done

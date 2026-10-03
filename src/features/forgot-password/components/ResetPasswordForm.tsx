@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetSchema, type TResetRequest } from "../types/forgot-password.types";
 import { useResetPasswordMutation } from "../api/forgot-password.api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 import {
   Form,
@@ -29,6 +30,7 @@ import {
 export function ResetPasswordForm() {
   const mutation = useResetPasswordMutation();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -47,6 +49,13 @@ export function ResetPasswordForm() {
         // Show success modal instead of immediate redirect
         setShowSuccess(true);
       },
+      onError: (error: any) => {
+        toast({
+          title: "Error",
+          description: error?.response?.data?.message || "Failed to reset password",
+          variant: "destructive",
+        });
+      }
     });
   };
 
@@ -122,6 +131,12 @@ export function ResetPasswordForm() {
             >
               {mutation.isPending ? "Submitting..." : "Submit"}
             </Button>
+
+            <div className="text-center mt-4">
+              <Link to="/login" className="text-sm font-semibold text-primary hover:underline">
+                Back to Login
+              </Link>
+            </div>
           </form>
         </Form>
       </div>
