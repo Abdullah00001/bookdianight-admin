@@ -196,7 +196,7 @@ export function SidebarContent({ onClickItem }: { onClickItem?: () => void }) {
                   <button
                     onClick={handleLogout}
                     disabled={logoutMutation.isPending}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border text-muted-foreground border-transparent hover:text-foreground hover:bg-muted"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors border text-red-500 border-transparent hover:text-red-600 hover:bg-red-50"
                   >
                     <link.icon className={`h-5 w-5 ${logoutMutation.isPending ? "opacity-50" : ""}`} />
                     {logoutMutation.isPending ? "Logging out..." : link.name}

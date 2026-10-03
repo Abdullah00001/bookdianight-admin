@@ -1,17 +1,79 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Inbox } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Inbox, Loader2 } from 'lucide-react';
 import { EventCard } from '@/features/events/components/EventCard';
 import { EventDetailsModal } from '@/features/events/components/EventDetailsModal';
-import { mockEvents } from '@/features/events/api/mock';
+import { useEventsQuery } from '@/apis/events.api';
 import type { Event } from '@/features/events/types';
 
-type TabType = 'ongoing' | 'completed' | 'canceled';
+type TabType = 'upcoming' | 'ongoing' | 'completed' | 'canceled';
+
+const getEventStatusParam = (tab: TabType) => {
+  switch (tab) {
+    case 'upcoming': return 'UPCOMING';
+    case 'ongoing': return 'ONGOING';
+    case 'completed': return 'COMPLETED';
+    case 'canceled': return 'CANCELED';
+    default: return undefined;
+  }
+};
 
 export default function EventsPage() {
   const [activeTab, setActiveTab] = useState<TabType>('ongoing');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [page, setPage] = useState(1);
 
-  const filteredEvents = mockEvents.filter(event => event.status === activeTab);
+  const { data: response, isLoading } = useEventsQuery({
+    page,
+    limit: 10,
+    eventStatus: getEventStatusParam(activeTab),
+  });
+
+  const events = response?.data || [];
+  const meta = response?.meta;
+  const totalPages = meta?.totalPages || 1;
+
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    setPage(1);
+  };
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="flex items-center justify-end space-x-2 pt-6">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 disabled:opacity-50"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            onClick={() => setPage(p)}
+            className={`h-8 w-8 flex items-center justify-center rounded font-medium ${
+              page === p
+                ? "bg-black text-white"
+                : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+            }`}
+          >
+            {p}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 disabled:opacity-50"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="flex-1 space-y-8 p-8 pt-6">
@@ -24,7 +86,18 @@ export default function EventsPage() {
 
       <div className="flex items-center space-x-8 border-b border-gray-200">
         <button
-          onClick={() => setActiveTab('ongoing')}
+          onClick={() => handleTabChange('upcoming')}
+          className={`pb-4 text-sm font-medium transition-colors relative ${
+            activeTab === 'upcoming' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          Upcoming
+          {activeTab === 'upcoming' && (
+            <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-t-full" />
+          )}
+        </button>
+        <button
+          onClick={() => handleTabChange('ongoing')}
           className={`pb-4 text-sm font-medium transition-colors relative ${
             activeTab === 'ongoing' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
@@ -35,7 +108,7 @@ export default function EventsPage() {
           )}
         </button>
         <button
-          onClick={() => setActiveTab('completed')}
+          onClick={() => handleTabChange('completed')}
           className={`pb-4 text-sm font-medium transition-colors relative ${
             activeTab === 'completed' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
@@ -46,7 +119,7 @@ export default function EventsPage() {
           )}
         </button>
         <button
-          onClick={() => setActiveTab('canceled')}
+          onClick={() => handleTabChange('canceled')}
           className={`pb-4 text-sm font-medium transition-colors relative ${
             activeTab === 'canceled' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
           }`}
@@ -58,10 +131,14 @@ export default function EventsPage() {
         </button>
       </div>
 
-      {filteredEvents.length > 0 ? (
+      {isLoading ? (
+        <div className="flex items-center justify-center py-32">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : events.length > 0 ? (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredEvents.map((event) => (
+            {events.map((event) => (
               <EventCard 
                 key={event.id} 
                 event={event} 
@@ -69,30 +146,7 @@ export default function EventsPage() {
               />
             ))}
           </div>
-
-          <div className="flex items-center justify-end space-x-2 pt-6">
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200">
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-black text-white font-medium">
-              1
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 font-medium">
-              2
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 font-medium">
-              3
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 font-medium">
-              4
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200 font-medium">
-              5
-            </button>
-            <button className="h-8 w-8 flex items-center justify-center rounded bg-gray-100 text-muted-foreground hover:bg-gray-200">
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+          {renderPagination()}
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-32 text-center">

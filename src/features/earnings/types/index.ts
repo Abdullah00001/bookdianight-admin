@@ -1,14 +1,14 @@
 export interface EarningTransaction {
   id: string;
   name: string;
-  image: string;
+  image?: string;
   createdBy: string;
-  date: string;
-  time: string;
+  dateAndTime: string;
   location: string;
-  price: string;
-  commission: string;
-  earning: string;
-  status: 'Completed' | 'Canceled';
-  type: 'clubs' | 'events';
+  price: number;
+  commission: number;
+  earning: number;
+  status: 'Completed' | 'Canceled' | 'Pending';
+  serviceType: 'CLUB' | 'EVENT';
+  currency: string;
 }

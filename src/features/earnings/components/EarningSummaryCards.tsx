@@ -1,6 +1,11 @@
 import { Euro } from "lucide-react";
 
-export function EarningSummaryCards() {
+interface EarningSummaryCardsProps {
+  totalEarning?: number;
+  todayEarning?: number;
+}
+
+export function EarningSummaryCards({ totalEarning = 0, todayEarning = 0 }: EarningSummaryCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       {/* Total Earning */}
@@ -11,7 +16,7 @@ export function EarningSummaryCards() {
             <Euro className="h-5 w-5 text-[#E5B869]" />
           </div>
         </div>
-        <span className="text-4xl font-bold text-foreground">€ 15,000</span>
+        <span className="text-4xl font-bold text-foreground">€ {totalEarning.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
       </div>
 
       {/* Today Earning */}
@@ -22,7 +27,7 @@ export function EarningSummaryCards() {
             <Euro className="h-5 w-5 text-[#E5B869]" />
           </div>
         </div>
-        <span className="text-4xl font-bold text-foreground">€ 1500</span>
+        <span className="text-4xl font-bold text-foreground">€ {todayEarning.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
       </div>
     </div>
   );

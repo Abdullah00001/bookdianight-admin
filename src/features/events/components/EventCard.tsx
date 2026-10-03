@@ -11,9 +11,9 @@ export function EventCard({ event, onClick }: EventCardProps) {
       className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
       onClick={() => onClick(event)}
     >
-      <div className="relative h-48 w-full overflow-hidden">
+      <div className="relative h-48 w-full overflow-hidden bg-gray-100">
         <img 
-          src={event.image} 
+          src={event.thumbnail || ""} 
           alt={event.name}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
@@ -27,7 +27,7 @@ export function EventCard({ event, onClick }: EventCardProps) {
         
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Date & Time</span>
-          <span className="text-sm font-medium text-foreground text-right">{event.dateTime}</span>
+          <span className="text-sm font-medium text-foreground text-right">{event.dateAndTime}</span>
         </div>
         
         <div className="flex items-center justify-between">
@@ -42,7 +42,7 @@ export function EventCard({ event, onClick }: EventCardProps) {
         
         <div className="flex items-center justify-between pt-1">
           <span className="text-sm text-muted-foreground">Price</span>
-          <span className="text-sm font-semibold text-foreground text-right">{event.price}</span>
+          <span className="text-sm font-semibold text-foreground text-right">{event.price} {event.currency}</span>
         </div>
       </div>
     </div>

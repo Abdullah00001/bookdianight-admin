@@ -1,15 +1,78 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EarningSummaryCards } from "@/features/earnings/components/EarningSummaryCards";
 import { EarningsTable } from "@/features/earnings/components/EarningsTable";
-import { mockEarnings } from "@/features/earnings/api/mock";
+import { useEarningsQuery } from "@/apis/earnings.api";
+
+type TabType = "all" | "clubs" | "events";
+
+const getServiceTypeParam = (tab: TabType) => {
+  switch (tab) {
+    case "clubs": return "CLUB";
+    case "events": return "EVENT";
+    case "all": 
+    default: return undefined;
+  }
+};
 
 export default function EarningsPage() {
-  const [activeTab, setActiveTab] = useState("clubs");
+  const [activeTab, setActiveTab] = useState<TabType>("all");
+  const [page, setPage] = useState(1);
 
-  const filteredData = mockEarnings.filter((item) => item.type === activeTab);
+  const { data: response, isLoading } = useEarningsQuery({
+    page,
+    limit: 10,
+    serviceType: getServiceTypeParam(activeTab),
+  });
+
+  const earnings = response?.data || [];
+  const meta = response?.meta;
+  const totalPages = meta?.totalPages || 1;
+
+  const handleTabChange = (val: string) => {
+    setActiveTab(val as TabType);
+    setPage(1);
+  };
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="mt-6 flex items-center justify-end gap-2 overflow-x-auto">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted text-muted-foreground shrink-0 disabled:opacity-50"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            onClick={() => setPage(p)}
+            className={`flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium shrink-0 ${
+              page === p
+                ? "bg-foreground text-background border-foreground"
+                : "border-border bg-background hover:bg-muted text-muted-foreground"
+            }`}
+          >
+            {p}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted text-muted-foreground shrink-0 disabled:opacity-50"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="max-w-[1400px] mx-auto">
@@ -20,11 +83,20 @@ export default function EarningsPage() {
         </p>
       </div>
 
-      <EarningSummaryCards />
+      <EarningSummaryCards 
+        totalEarning={meta?.totalEarning} 
+        todayEarning={meta?.todayEarning} 
+      />
 
       <div className="mb-6 border-b border-border overflow-x-auto">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full min-w-max">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full min-w-max">
           <TabsList className="bg-transparent h-auto p-0 flex gap-8 justify-start">
+            <TabsTrigger
+              value="all"
+              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground rounded-none border-b-2 border-transparent px-0 py-3 text-base font-medium text-muted-foreground transition-all"
+            >
+              All Earnings
+            </TabsTrigger>
             <TabsTrigger
               value="clubs"
               className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground rounded-none border-b-2 border-transparent px-0 py-3 text-base font-medium text-muted-foreground transition-all"
@@ -53,32 +125,14 @@ export default function EarningsPage() {
           </div>
         </div>
 
-        {filteredData.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-32">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : earnings.length > 0 ? (
           <>
-            <EarningsTable data={filteredData} />
-            <div className="mt-6 flex items-center justify-end gap-2 overflow-x-auto">
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted text-muted-foreground shrink-0">
-                &lt;
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-sm font-medium text-background shrink-0">
-                1
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted shrink-0">
-                2
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted shrink-0">
-                3
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted shrink-0">
-                4
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted shrink-0">
-                5
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-sm font-medium hover:bg-muted text-muted-foreground shrink-0">
-                &gt;
-              </button>
-            </div>
+            <EarningsTable data={earnings} />
+            {renderPagination()}
           </>
         ) : (
           <div className="py-20 flex flex-col items-center justify-center text-center">

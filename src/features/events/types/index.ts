@@ -1,13 +1,14 @@
 export interface Event {
   id: string;
   name: string;
-  dateTime: string;
+  description?: string;
+  thumbnail: string | null;
+  images?: string[];
+  dateAndTime: string;
   table: string;
   country: string;
-  price: string;
-  status: 'ongoing' | 'completed' | 'canceled';
-  image: string;
-  about?: string;
-  photos?: string[];
-  location?: string;
+  price: number;
+  currency: string;
+  eventStatus: "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELED";
+  createdAt: string;
 }
